@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -67,13 +68,17 @@ fun PokemonScreen() {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize(1f)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.img),
                 contentDescription = "Drawable Image",
                 modifier = Modifier.size(200.dp) // Adjust size as needed
             )
+            if(pokemons.value.isEmpty())
+                CircularProgressIndicator()
+            else
             LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
                 items(pokemons.value) { pokemon ->
                     PokemonItem(pokemon)
@@ -92,7 +97,7 @@ fun PokemonItem(pokemon: Pokemon) {
             .padding(8.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.White)
-           .aspectRatio(1f)
+            .aspectRatio(1f)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
