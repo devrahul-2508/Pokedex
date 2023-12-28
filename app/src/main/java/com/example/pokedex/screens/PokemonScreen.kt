@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -64,6 +66,8 @@ fun PokemonScreen() {
         endY = 500f // Adjust the end position as needed
     )
 
+    val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(2) }
+
     Box(
         modifier = Modifier
             .fillMaxSize(1f)
@@ -94,10 +98,9 @@ fun PokemonScreen() {
                     }
 
                     is LoadState.Loading -> { // Loading UI
-                        item {
+                        item(span=span) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth(1f)
                                     .align(
                                         Alignment.CenterHorizontally
                                     ),
@@ -124,7 +127,7 @@ fun PokemonScreen() {
                     }
 
                     is LoadState.Loading -> { // Pagination Loading UI
-                        item {
+                        item (span=span){
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth(1f)
