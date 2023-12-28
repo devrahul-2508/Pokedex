@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
@@ -48,7 +49,7 @@ import com.example.pokedex.viewmodels.PokeViewModel
 @Composable
 fun PokemonScreen() {
     val pokeViewModel: PokeViewModel = hiltViewModel()
-    val pokemons: State<List<Pokemon>> = pokeViewModel.pokemons.collectAsState()
+    val pokemons = pokeViewModel.getPokemons().collectAsLazyPagingItems()
     val colors = listOf(
         Color.Blue, // Start color
         Color.Magenta // End color
@@ -76,13 +77,13 @@ fun PokemonScreen() {
                 contentDescription = "Drawable Image",
                 modifier = Modifier.size(200.dp) // Adjust size as needed
             )
-            if(pokemons.value.isEmpty())
-                CircularProgressIndicator()
-            else
-            LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
-                items(pokemons.value) { pokemon ->
-                    PokemonItem(pokemon)
-                }
+
+
+                LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
+                   items(pokemons.itemCount){index->
+                       PokemonItem(pokemon = pokemons[index]!!)
+
+                   }
             }
         }
     }

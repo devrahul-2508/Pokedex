@@ -11,7 +11,7 @@ interface PokeApi {
 
     @GET("pokemon")
     suspend fun getPokemons(
-        @Query("offset") offset:String,
-        @Query("limit") limit:String
+        @Query("offset") offset:Int,
+        @Query("limit") limit:Int
     ):Response<ApiResponsePokemonModel>
 }
