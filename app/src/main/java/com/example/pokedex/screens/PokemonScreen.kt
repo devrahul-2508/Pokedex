@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -79,17 +81,71 @@ fun PokemonScreen() {
             )
 
 
-                LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
-                   items(pokemons.itemCount){index->
-                       PokemonItem(pokemon = pokemons[index]!!)
+            LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
+                items(pokemons.itemCount) { index ->
+                    PokemonItem(pokemon = pokemons[index]!!)
 
-                   }
+                }
+
+                when (val state = pokemons.loadState.refresh) { //FIRST LOAD
+                    is LoadState.Error -> {
+                        //TODO Error Item
+                        //state.error to get error message
+                    }
+
+                    is LoadState.Loading -> { // Loading UI
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(1f)
+                                    .align(
+                                        Alignment.CenterHorizontally
+                                    ),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(8.dp),
+                                    text = "Refresh Loading"
+                                )
+
+                                CircularProgressIndicator(color = Color.Black)
+                            }
+                        }
+                    }
+
+                    else -> {}
+                }
+
+                when (val state = pokemons.loadState.append) { // Pagination
+                    is LoadState.Error -> {
+                        //TODO Pagination Error Item
+                        //state.error to get error message
+                    }
+
+                    is LoadState.Loading -> { // Pagination Loading UI
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(1f)
+
+                                    .align(Alignment.CenterHorizontally),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Text(text = "Pagination Loading")
+
+                                CircularProgressIndicator(color = Color.Black)
+                            }
+                        }
+                    }
+
+                    else -> {}
+                }
             }
         }
     }
-
-
 }
+
 
 @Composable
 fun PokemonItem(pokemon: Pokemon) {
