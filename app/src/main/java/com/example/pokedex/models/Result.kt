@@ -1,6 +1,6 @@
 package com.example.pokedex.models
 
-data class Pokemon(
+data class Result(
     val name:String,
     val url:String
 )

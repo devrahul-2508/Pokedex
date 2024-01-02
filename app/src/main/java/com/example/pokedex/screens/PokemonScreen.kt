@@ -2,30 +2,24 @@ package com.example.pokedex.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,7 +38,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.example.pokedex.R
-import com.example.pokedex.models.Pokemon
+import com.example.pokedex.models.Result
 import com.example.pokedex.utils.Constants
 import com.example.pokedex.viewmodels.PokeViewModel
 
@@ -87,7 +80,7 @@ fun PokemonScreen() {
 
             LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
                 items(pokemons.itemCount) { index ->
-                    PokemonItem(pokemon = pokemons[index]!!)
+                    PokemonItem(result = pokemons[index]!!)
 
                 }
 
@@ -151,7 +144,7 @@ fun PokemonScreen() {
 
 
 @Composable
-fun PokemonItem(pokemon: Pokemon) {
+fun PokemonItem(result: Result) {
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -172,7 +165,7 @@ fun PokemonItem(pokemon: Pokemon) {
                         .data(
                             "https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${
                                 Constants.extractDigitFromUrl(
-                                    pokemon.url
+                                    result.url
                                 )
                             }.svg"
                         )
@@ -183,7 +176,7 @@ fun PokemonItem(pokemon: Pokemon) {
             }
             Box(modifier = Modifier.height(5.dp))
             Text(
-                text = pokemon.name, style = TextStyle(
+                text = result.name, style = TextStyle(
                     color = Color.Black,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.W500

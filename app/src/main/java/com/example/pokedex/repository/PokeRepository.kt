@@ -1,18 +1,17 @@
 package com.example.pokedex.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.pokedex.api.PokeApi
-import com.example.pokedex.models.Pokemon
+import com.example.pokedex.models.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
 
-    private val _pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
-    val pokemons:StateFlow<List<Pokemon>>
+    private val _pokemons = MutableStateFlow<List<Result>>(emptyList())
+    val pokemons:StateFlow<List<Result>>
         get() = _pokemons
 
 //    suspend fun getPokemons(){
