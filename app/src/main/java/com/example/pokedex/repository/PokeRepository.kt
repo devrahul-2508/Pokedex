@@ -1,18 +1,19 @@
 package com.example.pokedex.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.pokedex.api.PokeApi
 import com.example.pokedex.models.Pokemon
+import com.example.pokedex.models.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
 
-    private val _pokemons = MutableStateFlow<List<Pokemon>>(emptyList())
-    val pokemons:StateFlow<List<Pokemon>>
+    private val _pokemons = MutableStateFlow<List<Result>>(emptyList())
+    val pokemons:StateFlow<List<Result>>
         get() = _pokemons
 
 //    suspend fun getPokemons(){
@@ -31,4 +32,14 @@ class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
             PokePagingSource(pokeApi)
         }
     ).flow
+
+    suspend fun getPokemonInfo(name:String,data:MutableStateFlow<Pokemon?>){
+
+        val pokemonInfo = MutableStateFlow<Pokemon?>(null)
+        val response = pokeApi.getPokemonInfo(name)
+
+        if(response.isSuccessful && response.body()!=null){
+            data.emit(response.body())
+        }
+    }
 }
