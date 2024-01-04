@@ -2,6 +2,7 @@ package com.example.pokedex.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,7 @@ import com.example.pokedex.viewmodels.PokeViewModel
 
 
 @Composable
-fun PokemonScreen() {
+fun PokemonScreen(onClick:(pokemonName:String)-> Unit) {
     val pokeViewModel: PokeViewModel = hiltViewModel()
     val pokemons = pokeViewModel.getPokemons().collectAsLazyPagingItems()
     val colors = listOf(
@@ -80,7 +81,7 @@ fun PokemonScreen() {
 
             LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
                 items(pokemons.itemCount) { index ->
-                    PokemonItem(result = pokemons[index]!!)
+                    PokemonItem(result = pokemons[index]!!, onClick)
 
                 }
 
@@ -144,10 +145,13 @@ fun PokemonScreen() {
 
 
 @Composable
-fun PokemonItem(result: Result) {
+fun PokemonItem(result: Result,onClick: (pokemonName: String) -> Unit) {
     Box(
         modifier = Modifier
             .padding(8.dp)
+            .clickable {
+                onClick(result.name)
+            }
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.White)
             .aspectRatio(1f)

@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pokedex.screens.PokemonDetailScreen
 import com.example.pokedex.screens.PokemonScreen
 import com.example.pokedex.ui.theme.PokedexTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +42,16 @@ fun App() {
 
     NavHost(navController = navController, startDestination = "pokelist"){
         composable(route="pokelist"){
-            PokemonScreen()
+            PokemonScreen{
+                navController.navigate("detail/$it")
+            }
+        }
+        composable(route="detail/{pokemonName}"){
+            val pokemonName = it.arguments?.getString("pokemonName")
+
+            if (pokemonName != null) {
+                PokemonDetailScreen(pokemonName = pokemonName, navController = navController)
+            }
         }
     }
 }
