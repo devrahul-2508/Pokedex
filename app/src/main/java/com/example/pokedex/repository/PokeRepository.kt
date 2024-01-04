@@ -30,4 +30,14 @@ class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
             PokePagingSource(pokeApi)
         }
     ).flow
+
+//    suspend fun getPokemonInfo(
+//        name:String,
+//        data: MutableStateFlow<Pokemon?>
+//    ){
+//        val response = pokeApi.getPokemonInfo(name);
+//
+//        if(response.isSuccessful && response.body()!=null)
+//            data.emit(response.body()!!)
+//    }
 }
