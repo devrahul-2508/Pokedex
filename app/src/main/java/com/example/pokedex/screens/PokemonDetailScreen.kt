@@ -79,7 +79,17 @@ fun PokemonDetailScreen(
                 )
                 .shadow(10.dp, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.surface),
+
+            loadingModifier = Modifier
+                .size(100.dp)
+                .align(Alignment.Center)
+                .padding(
+                    top=topPadding+pokemonImageSize/2f,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                )
         )
         Box(
 
@@ -155,19 +165,15 @@ fun PokemonDetailTopSection(
 @Composable
 fun PokemonDetailStateWrapper(
     pokeMonInfo: Pokemon?,
-    modifier: Modifier
+    modifier: Modifier,
+    loadingModifier: Modifier
 ) {
     if (pokeMonInfo != null) {
 
     } else {
-        Box(
-            modifier = Modifier.
-            size(100.dp)
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        CircularProgressIndicator(
+            modifier = loadingModifier,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }
