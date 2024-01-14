@@ -16,6 +16,11 @@ class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
     val pokemons:StateFlow<List<Result>>
         get() = _pokemons
 
+    private val _pokemonInfo = MutableStateFlow<Pokemon?>(null)
+
+    val pokemonInfo: StateFlow<Pokemon?>
+        get() = _pokemonInfo
+
 //    suspend fun getPokemons(){
 //        val response = pokeApi.getPokemons("0","20")
 //        Log.d("TAG",response.body().toString())
@@ -33,13 +38,13 @@ class PokeRepository @Inject constructor(private val pokeApi: PokeApi) {
         }
     ).flow
 
-    suspend fun getPokemonInfo(name:String,data:MutableStateFlow<Pokemon?>){
 
-        val pokemonInfo = MutableStateFlow<Pokemon?>(null)
-        val response = pokeApi.getPokemonInfo(name)
+    suspend fun getPokemonInfo(
+        name:String,
+    ){
+        val response = pokeApi.getPokemonInfo(name);
 
-        if(response.isSuccessful && response.body()!=null){
-            data.emit(response.body())
-        }
+        if(response.isSuccessful && response.body()!=null)
+            _pokemonInfo.emit(response.body())
     }
 }

@@ -21,15 +21,15 @@ class PokeViewModel @Inject constructor(private val pokeRepository: PokeReposito
     fun getPokemons(): Flow<PagingData<Result>> =
         pokeRepository.getPokemons().cachedIn(viewModelScope)
 
-    fun getPokemonInfo(name: String): StateFlow<Pokemon?> {
-        val pokemonInfoData = MutableStateFlow<Pokemon?>(null)
-        viewModelScope.launch {
-            pokeRepository.getPokemonInfo(name, pokemonInfoData)
+    val pokemonInfo = pokeRepository.pokemonInfo
 
+    fun getPokemonInfo(name: String) {
+        viewModelScope.launch {
+            pokeRepository.getPokemonInfo(name)
 
         }
-        return pokemonInfoData
 
     }
 
 }
+
