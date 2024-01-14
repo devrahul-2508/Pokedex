@@ -92,6 +92,7 @@ fun PokemonDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)
+                .align(Alignment.TopCenter)
         )
         PokemonDetailStateWrapper(
             pokeMonInfo = pokemonDetails.value,
@@ -157,7 +158,7 @@ fun PokemonDetailScreen(
 @Composable
 fun PokemonDetailTopSection(
     navController: NavController,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.TopStart,
@@ -175,9 +176,9 @@ fun PokemonDetailTopSection(
             imageVector = Icons.Default.ArrowBack,
             contentDescription = null,
             tint = Color.White,
-            modifier = modifier
+            modifier = Modifier
                 .size(36.dp)
-                .align(Alignment.TopStart)
+                .padding(top = 10.dp, start = 10.dp)
                 .clickable {
                     navController.popBackStack()
                 }
